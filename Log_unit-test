@@ -1,0 +1,386 @@
+using NUnit.Framework;
+
+[TestFixture]
+public class RegistrationTests
+{
+    [Test]
+    public void RegisterUser_СВалиднымиДанными_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СКороткимЛогином_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "short";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен содержать минимум 5 символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомЛогина_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "invalid login";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен быть в формате телефона, email или строки символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СПредустановленнымЛогином_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "user1";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин уже занят.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНесовпадающимиПаролями_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Valid123#";
+        string confirmPassword = "MismatchedPassword";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль и подтверждение пароля не совпадают.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СКороткимПаролем_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Short1#";
+        string confirmPassword = "Short1#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль должен содержать минимум 7 символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомПароля_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "invalidpassword";
+        string confirmPassword = "invalidpassword";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль не соответствует требованиям (минимум одна буква в верхнем и нижнем регистре, одна цифра и один спецсимвол).", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымТелефоннымЛогином_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "+1-555-555-5555";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымEmailЛогином_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "user@example.com";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымЛогиномВВидеСтрокиСимволов_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "valid_login";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомСтроковогоЛогина_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "invalid login!";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен быть в формате телефона, email или строки символов.", message);
+    }
+    
+    // Другие тесты можно добавить аналогичным образом
+}
+using NUnit.Framework;
+
+[TestFixture]
+public class RegistrationTests
+{
+    [Test]
+    public void RegisterUser_СВалиднымиДанными_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СКороткимЛогином_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "short";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен содержать минимум 5 символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомЛогина_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "invalid login";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен быть в формате телефона, email или строки символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СПредустановленнымЛогином_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "user1";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин уже занят.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНесовпадающимиПаролями_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Valid123#";
+        string confirmPassword = "MismatchedPassword";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль и подтверждение пароля не совпадают.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СКороткимПаролем_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "Short1#";
+        string confirmPassword = "Short1#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль должен содержать минимум 7 символов.", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомПароля_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "valid_user";
+        string password = "invalidpassword";
+        string confirmPassword = "invalidpassword";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Пароль не соответствует требованиям (минимум одна буква в верхнем и нижнем регистре, одна цифра и один спецсимвол).", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымТелефоннымЛогином_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "+1-555-555-5555";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымEmailЛогином_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "user@example.com";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СВалиднымЛогиномВВидеСтрокиСимволов_ДолженВернутьTrue()
+    {
+        // Arrange
+        string login = "valid_login";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("", message);
+    }
+
+    [Test]
+    public void RegisterUser_СНедопустимымФорматомСтроковогоЛогина_ДолженВернутьFalse()
+    {
+        // Arrange
+        string login = "invalid login!";
+        string password = "Valid123#";
+        string confirmPassword = "Valid123#";
+        string message;
+
+        // Act
+        bool result = Program.RegisterUser(login, password, confirmPassword, out message);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual("Логин должен быть в формате телефона, email или строки символов.", message);
+    }
+}
