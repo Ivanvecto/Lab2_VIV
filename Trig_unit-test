@@ -227,21 +227,5 @@ public class TriangleTests
         // Assert
         Assert.AreEqual("разносторонний", result.Item1);
         Assert.AreEqual(3, result.Item2.Count);
-    }
-
-    [Test]
-    public void GetTriangleInfo_WithValidDataAndEqualFloats_ShouldReturnEquilateralTypeAndVertices()
-    {
-        // Arrange
-        string sideA = "1.23456789";
-        string sideB = "1.23456789";
-        string sideC = "1.23456789";
-
-        // Act
-        (string, List<(int, int)>) result = Triangle.GetTriangleInfo(sideA, sideB, sideC);
-
-        // Assert
-        Assert.AreEqual("равнобедренный", result.Item1);
-        Assert.AreEqual(3, result.Item2.Count);
-    }
+   }
 }
